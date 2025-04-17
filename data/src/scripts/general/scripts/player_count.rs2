@@ -1,4 +1,6 @@
 [proc,scale_by_playercount](int $base)(int)
+//apply global respawn timer decrease, minimum of 2 or scale crashes.
+def_int $adjustedRate = max(divide($base, 3), 2);
 //not sure if it caps at 2k player count or not
 def_int $playercount = min(playercount, 2000);
-return (scale(sub(4000, $playercount), 4000, $base));
+return (scale(sub(4000, $playercount), 4000, $adjustedRate));

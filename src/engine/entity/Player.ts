@@ -682,10 +682,7 @@ export default class Player extends PathingEntity {
             const recovered = ((this.baseLevels[PlayerStat.AGILITY] / 9) | 0) + 8;
             this.runenergy = Math.min(this.runenergy + recovered, 10000);
         } else {
-            const weightKg = this.runweight / 1000;
-            const clampWeight = Math.min(Math.max(weightKg, 0), 64);
-            const loss = (67 + (67 * clampWeight) / 64) | 0;
-            this.runenergy = Math.max(this.runenergy - loss, 0);
+            // Disable energy loss.
         }
 
         if (this.runenergy === 0) {
@@ -1693,8 +1690,9 @@ export default class Player extends PathingEntity {
             return;
         }
 
-        const multi = allowMulti ? Environment.NODE_XPRATE : 1;
-        this.stats[stat] += xp * multi;
+        // Exponentially increasing XP multiplier up to 99x at level 99.
+        const multi =  Math.pow(1.047, this.baseLevels[stat]) + 2;
+        this.stats[stat] += xp * (allowMulti ? multi : 1);
 
         // cap to 200m, this is represented as "2 billion" because we use 32-bit signed integers and divide by 10 to give us a decimal point
         if (this.stats[stat] > 2_000_000_000) {

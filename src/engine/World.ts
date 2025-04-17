@@ -1828,9 +1828,12 @@ class World {
     }
 
     scaleByPlayerCount(rate: number): number {
+        // apply global respawn timer decrease, minimum of 2 or scale crashes.
+        const adjustedRate = Math.max(rate / 3, 2);
+
         // not sure if it caps at 2k player count or not
         const playerCount = Math.min(this.getTotalPlayers(), 2000);
-        return (((4000 - playerCount) * rate) / 4000) | 0; // assuming scale works the same way as the runescript one
+        return (((4000 - playerCount) * adjustedRate) / 4000) | 0; // assuming scale works the same way as the runescript one
     }
 
     private createDevThread() {

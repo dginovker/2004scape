@@ -561,7 +561,8 @@ const InvOps: CommandHandlers = {
         }
 
         const player: Player = state.activePlayer;
-        const completed = player.invDel(fromInvType.id, objType.id, count);
+        // prevent reduction in store stocks when players buy items
+        const completed = fromInvType.restock ? count : player.invDel(fromInvType.id, objType.id, count);
         if (completed == 0) {
             return;
         }
@@ -699,7 +700,8 @@ const InvOps: CommandHandlers = {
             return; // stop untradables after delete.
         }
 
-        World.addObj(new Obj(position.level, position.x, position.z, EntityLifeCycle.DESPAWN, obj.id, completed), toPlayer.hash64, duration);
+        // switch items dropped on death in PvP to be owned by the dead player, preventing them from being looted
+        World.addObj(new Obj(position.level, position.x, position.z, EntityLifeCycle.DESPAWN, obj.id, completed), fromPlayer.hash64, duration);
     }),
 
     // https://x.com/JagexAsh/status/1778879334167548366

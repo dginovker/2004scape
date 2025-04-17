@@ -49,6 +49,12 @@ export class PlayerLoading {
             player.stats[PlayerStat.HITPOINTS] = getExpByLevel(10);
             player.baseLevels[PlayerStat.HITPOINTS] = 10;
             player.levels[PlayerStat.HITPOINTS] = 10;
+
+            // Herblore starts at level 3 to unlock the skill immediately
+            player.stats[PlayerStat.HERBLORE] = getExpByLevel(3);
+            player.baseLevels[PlayerStat.HERBLORE] = 3;
+            player.levels[PlayerStat.HERBLORE] = 3;
+
             return player;
         }
 

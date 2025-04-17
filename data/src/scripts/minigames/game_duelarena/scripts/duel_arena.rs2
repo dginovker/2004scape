@@ -29,6 +29,10 @@ if ($null = inv_size(duelarrows)) {
 }
 
 [opplayer1,_]
+// Disable dueling to prevent trading via staking.
+mes("Dueling with other players is disabled.");
+return;
+
 if (.busy = true) {
     mes("<.displayname> is busy at the moment."); // https://youtu.be/YkJQDvB14-U?t=26
     return;

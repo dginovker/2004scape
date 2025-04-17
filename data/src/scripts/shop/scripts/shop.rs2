@@ -126,7 +126,8 @@ while($i < $sell_amount) {
     $i = calc($i + 1);
 }
 // now perform the transaction 
-inv_moveitem_uncert(inv, %shop, $obj, $sell_amount);
+// delete the item from the player's inventory without adding it to the shop's inventory
+inv_del(inv, $obj, $sell_amount);
 wealth_log(^wealth_gained, $total_value, "Sold <oc_debugname($obj)> x<tostring($sell_amount)> to <inv_debugname(%shop)> for <tostring($total_value)> coins");
 wealth_event(^wealth_shop_sell, oc_debugname($obj), $sell_amount, $total_value);
 if($total_value > 0) {

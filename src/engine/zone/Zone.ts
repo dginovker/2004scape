@@ -293,6 +293,12 @@ export default class Zone {
     revealObj(obj: Obj): void {
         const objType: ObjType = ObjType.get(obj.type);
 
+        const tradedQuestItems = ['phoenix_crossbow', 'arravshield1', 'arravcertificate', 'misc_key', 'petecandlestick'];
+        // Prevent items owned by a player from ever becoming public except those required for quests.
+        if (!(objType.debugname && tradedQuestItems.includes(objType.debugname))) {
+            obj.reveal = -1;
+        }
+
         obj.lastChange = -1;
 
         // If the obj is not tradeable, or it's members in an f2p world, or it's already revealed, then skip
