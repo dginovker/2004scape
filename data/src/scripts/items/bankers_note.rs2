@@ -1,0 +1,63 @@
+[opheld5,bankers_note]
+    // Check if player has space in bank for 1 item (the note itself)
+    if (inv_freespace(bank) < 1 & inv_total(bank, bankers_note) = 0) {
+        mes("Your bank is full.");
+        return;
+    }
+    // Check if bank already has max stack of notes (if stackable, though it shouldn't be)
+    if (inv_total(bank, bankers_note) = ^max_32bit_int) {
+        mes("Your bank already holds the maximum number of Banker's Notes.");
+        return;
+    }
+    // Move the note from inventory to bank
+    inv_moveitem(inv, bank, bankers_note, 1); // Move 1 note
+    mes("You send the Banker's Note to your bank.");
+
+// --- Item Use Logic ---
+
+[opheldu,bankers_note]
+
+def_obj $item_to_process;
+def_int $item_slot;
+
+// Determine which item is the note and which is being processed
+if (last_item = bankers_note) {
+    // Used other item ON the note
+    $item_to_process = last_useitem;
+    $item_slot = last_useslot;
+} else {
+    // Used the note ON other item
+    $item_to_process = last_item;
+    $item_slot = last_slot;
+}
+
+// Check if accidentally used note on itself
+if ($item_to_process = bankers_note) {
+    mes("Nothing interesting happens.");
+    return;
+}
+
+// Get ObjType info for the item being processed
+def_obj $noted_version = oc_cert($item_to_process);
+def_obj $unnoted_version = oc_uncert($item_to_process);
+
+// Check if the item is noteable/unnoteable at all
+if ($noted_version = $unnoted_version) {
+    mes("This item cannot be noted or unnoted.");
+    return;
+}
+
+if ($item_to_process = $unnoted_version) {
+    inv_moveitem_cert(inv, inv, $unnoted_version, 1);
+    return;
+}
+
+if ($item_to_process = $noted_version) {
+    if (inv_freespace(inv) = 0 & inv_total(inv, $noted_version) > 1) {
+        mes("You don't have enough room in your inventory.");
+        return;
+    }
+
+    inv_moveitem_uncert(inv, inv, $noted_version, 1);
+    return;
+}

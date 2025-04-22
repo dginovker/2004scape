@@ -78,10 +78,6 @@ param=next_obj_stage,litarrow
 param=unlit_arrow,^true
 tradeable=no
 
-// rename: cert_unlitarrow
-[obj_599]
-tradeable=no
-
 [logs]
 name=Logs
 desc=A number of wooden logs.
