@@ -174,6 +174,7 @@ return ($sell_amount);
 [inv_button2,shop_template:inv] @shop_request(%shop, last_slot, 1);
 [inv_button3,shop_template:inv] @shop_request(%shop, last_slot, 5);
 [inv_button4,shop_template:inv] @shop_request(%shop, last_slot, 10);
+[inv_button5,shop_template:inv] @shop_request(%shop, last_slot, 50);
 
 // verify a request to buy or sell from a shop, and then perform the transaction if all passed
 [label,shop_request](inv $shop_inv, int $slot, int $amount)
