@@ -115,8 +115,8 @@ if (add(%lastcombat, 8) > map_clock) {
     return;
 }
 
-if(%stunned > map_clock) {
-    return;
+while(%stunned > map_clock) {
+    p_delay(0);
 }
 
 if (%action_delay > map_clock) {
@@ -128,3 +128,8 @@ if (%action_delay > map_clock) {
 // https://oldschool.runescape.wiki/w/Update:Halloween_2016, when check was added for preventing attacking when an npc is being pickpocketed
 
 ~pick_pocket($data);
+
+%action_delay = calc(map_clock + 3);
+p_opnpc(3);
+
+
